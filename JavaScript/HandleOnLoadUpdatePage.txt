@@ -1,0 +1,29 @@
+public void handleOnLoadUpdatePage(ComponentSystemEvent event) {
+	if (!isSubmit) {
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		String strId = facesContext.getExternalContext()
+				.getRequestParameterMap().get("id");
+
+		boolean isValidId = false;
+		if (strId != null && NumberUtils.isInteger(strId)) {
+			int id = Integer.parseInt(strId);
+			if (id > 0) {
+				applicant = applicantService.getById(id);
+				if (applicant != null) {
+					loadValue();
+					isValidId = true;
+				}
+			}
+		}
+		if (!isValidId) {
+			facesContext.getExternalContext().getFlash()
+					.setKeepMessages(true);
+			facesContext.addMessage("growlMessage", new FacesMessage(
+					FacesMessage.SEVERITY_WARN, "Warm",
+					"There is something wrong with id"));
+			ConfigurableNavigationHandler nav = (ConfigurableNavigationHandler) facesContext
+					.getApplication().getNavigationHandler();
+			nav.performNavigation(SUCCESS_PAGE + REDIRECT_STR);
+		}
+	}
+}
