@@ -1,0 +1,1 @@
+D:\WorkSpace\Ivy6a_Workspace\.metadata\.plugins\org.eclipse.core.runtime\.settings
